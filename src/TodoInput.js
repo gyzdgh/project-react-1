@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 export default class TodoInput extends Component {
   render() {
     //input的值
-    return <input type="text" defaultValue={this.props.content}
+    return <input type="text" value={this.props.content}
+      onChange={this.changeTitle.bind(this)}
       //回车事件  给 this.submit 绑定一个 this
       onKeyPress={this.submit.bind(this)} />
   }
@@ -10,5 +11,8 @@ export default class TodoInput extends Component {
     if (e.key === 'Enter') {
       this.props.onSubmit(e)
     }
+  }
+  changeTitle(e) {
+    this.props.onChange(e)
   }
 }
