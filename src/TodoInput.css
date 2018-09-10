@@ -1,7 +1,14 @@
 .TodoInput {
     width: 100%;
     line-height: 1.8;
+    border: 1px solid #b8b8b8;
+    border-radius: 3px;
     margin-bottom: 1em;
     font-size: 16px;
-    padding: 0 .2em;
+    padding: 0 .3em;
+}
+
+.TodoInput:focus {
+    outline: none;
+    border-color: #4b94fc;
 }
