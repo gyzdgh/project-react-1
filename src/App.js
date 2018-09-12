@@ -4,6 +4,7 @@ import 'normalize.css'
 import './reset.css'
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
+import * as localStore from './localStore'
 
 
 class App extends Component {
@@ -11,22 +12,20 @@ class App extends Component {
     super(props)
     this.state = {
       newTodo: '',
-      todoList: [
-
-      ]
+      todoList: localStore.load('todoList') || []
     }
   }
   render() {
     let todos = this.state.todoList
-      .filter((item)=> !item.deleted)
-      .map((item,index)=>{
-      return (
-        <li key={index} >
-          <TodoItem todo={item} onToggle={this.toggle.bind(this)}
-            onDelete={this.delete.bind(this)} />
-        </li>
-      )
-    })
+      .filter((item) => !item.deleted)
+      .map((item, index) => {
+        return (
+          <li key={index} >
+            <TodoItem todo={item} onToggle={this.toggle.bind(this)}
+              onDelete={this.delete.bind(this)} />
+          </li>
+        )
+      })
     return (
       <div className="App">
         <h1>我的待办</h1>
@@ -44,12 +43,14 @@ class App extends Component {
   toggle(e, todo) {
     todo.status = todo.status === 'completed' ? '' : 'completed'
     this.setState(this.state)
+    localStore.save('todoList', this.state.todoList)
   }
   changeTitle(event) {
     this.setState({
       newTodo: event.target.value,
       todoList: this.state.todoList
     })
+    localStore.save('todoList', this.state.todoList)
   }
   addTodo(event) {
     this.state.todoList.push({
@@ -62,10 +63,12 @@ class App extends Component {
       newTodo: '',
       todoList: this.state.todoList
     })
+    localStore.save('todoList', this.state.todoList)
   }
   delete(event, todo) {
     todo.deleted = true
     this.setState(this.state)
+    localStore.save('todoList', this.state.todoList)
   }
 }
 
