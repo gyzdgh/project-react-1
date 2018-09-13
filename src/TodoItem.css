@@ -10,6 +10,19 @@
     padding: 0 .5em;
 }
 
+input{
+    line-height: 1.8;
+    border: 1px solid #b8b8b8;
+    border-radius: 3px;
+    font-size: 16px;
+    padding: 0 .3em;
+}
+
+input:focus{
+    outline: none;
+    border-color: #4b94fc;
+}
+
 button {
     border: none;
     cursor: pointer;
@@ -20,6 +33,7 @@ button {
     border-radius: 3px;
     outline: none;
     text-decoration: none;
+    margin-left: 4px;
 }
 
 button:hover {
