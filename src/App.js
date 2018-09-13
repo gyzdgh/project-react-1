@@ -5,7 +5,6 @@ import './reset.css'
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
 import UserDialog from './UserDialog'
-import { getCurrentUser } from './leanCloud'
 import { getCurrentUser, signOut } from './leanCloud'
 
 class App extends Component {
@@ -41,7 +40,11 @@ class App extends Component {
         <ol className="todoList">
           {todos}
         </ol>
-        {this.state.user.id ? null : <UserDialog onSignUp={this.onSignUp.bind(this)} />}
+        {this.state.user.id ?
+          null :
+          <UserDialog
+            onSignUp={this.onSignUp.bind(this)}
+            onSignIn={this.onSignIn.bind(this)} />}
       </div>
     );
   }
@@ -53,6 +56,11 @@ class App extends Component {
   }
   onSignUp(user) {
     let stateCopy = JSON.parse(JSON.stringify(this.state))
+    stateCopy.user = user
+    this.setState(stateCopy)
+  }
+  onSignIn(user){
+    let stateCopy = JSON.parse(JSON.stringify(this.state)) 
     stateCopy.user = user
     this.setState(stateCopy)
   }
