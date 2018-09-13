@@ -12,11 +12,11 @@ export default AV
 // 所有跟 Todo 相关的 LeanCloud 操作都放到这里
 
 export const TodoModel = {
-  getByUser(user, successFn, errorFn){
+  getByUser(user, successFn, errorFn) {
     let query = new AV.Query('Todo')
     query.find().then((response) => {
       let array = response.map((t) => {
-        return {id: t.id, ...t.attributes}
+        return { id: t.id, ...t.attributes }
       })
       successFn.call(null, array)
     }, (error) => {
@@ -24,11 +24,15 @@ export const TodoModel = {
     })
   },
   create({ status, title, deleted }, successFn, errorFn) {
-    let Todo = AV.Object.extend('Todo') // 记得把多余的分号删掉，我讨厌分号
+    let Todo = AV.Object.extend('Todo') 
     let todo = new Todo()
     todo.set('title', title)
     todo.set('status', status)
     todo.set('deleted', deleted)
+    let acl = new AV.ACL()
+    acl.setPublicReadAccess(false) // 这里是 false
+    acl.setWriteAccess(AV.User.current(), true)
+    todo.setACL(acl);
     todo.save().then(function (response) {
       successFn.call(null, response.id)
     }, function (error) {
@@ -97,3 +101,4 @@ function getUserFromAVUser(AVUser) {
     ...AVUser.attributes
   }
 }
+
